@@ -21,6 +21,9 @@
     <ClInclude Include="src\GLContext.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\Win32Helper.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GLWindow.cpp">
@@ -33,6 +36,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\GLContext.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GLOSWindow.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Win32Helper.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

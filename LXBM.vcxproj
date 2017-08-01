@@ -151,12 +151,15 @@
     <ClInclude Include="src\GLWindow.h" />
     <ClInclude Include="src\GLOSWindow.h" />
     <ClInclude Include="src\WGLContext.h" />
+    <ClInclude Include="src\Win32Helper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GLContext.cpp" />
     <ClCompile Include="src\GLOSWindow-win32.cpp" />
+    <ClCompile Include="src\GLOSWindow.cpp" />
     <ClCompile Include="src\GLWindow.cpp" />
     <ClCompile Include="src\WGLContext.cpp" />
+    <ClCompile Include="src\Win32Helper.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

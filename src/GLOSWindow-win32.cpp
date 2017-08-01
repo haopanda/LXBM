@@ -14,6 +14,23 @@ GLOSWindow* GLOSWindow::create()
 	return nullptr;
 }
 
+void GLOSWindow::pollEvents()
+{
+	MSG msg;
+	while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
+	{
+		if (msg.message == WM_QUIT)
+		{
+			//
+		}
+	}
+}
+
+void GLOSWindow::waitEvents()
+{
+	//
+}
+
 ////////////////////////////////
 #define _WINDOW_CLASS_NAME L"LXBM"
 

@@ -21,7 +21,9 @@ class GLOSWindow
 {
 public:
 	// 在不同平台的实现中定义 
-	static GLOSWindow* create();
+	static GLOSWindow* create(void);
+	static void pollEvents(void);
+	static void waitEvents(void);
 
 	// 成为当前渲染窗口 
 	bool makeCurrent();
