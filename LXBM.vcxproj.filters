@@ -1,48 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="src">
+    <Filter Include="window">
       <UniqueIdentifier>{b3595a8c-94b1-48a2-bd6f-005cfbffa890}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="window\win32">
+      <UniqueIdentifier>{e3501b8b-08fa-4ecc-8e3b-b430cc1c4420}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\GLWindow.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GLOSWindow.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GLOSWindow-win32.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\WGLContext.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GLContext.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Win32Helper.h">
-      <Filter>src</Filter>
-    </ClInclude>
+    <ClCompile Include="src\window\win32\GLWindow-win32.cpp">
+      <Filter>window\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\win32\WGLContext.cpp">
+      <Filter>window\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\win32\Win32Helper.cpp">
+      <Filter>window\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\win32\WindowManager-win32.cpp">
+      <Filter>window\win32</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\GLContext.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\GLWindow.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\WindowManager.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\glad.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GLWindow.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLOSWindow-win32.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WGLContext.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLContext.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GLOSWindow.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Win32Helper.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
+    <ClInclude Include="src\window\win32\GLWindow-win32.h">
+      <Filter>window\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\win32\WGLContext.h">
+      <Filter>window\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\win32\Win32Helper.h">
+      <Filter>window\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\win32\WindowManager-win32.h">
+      <Filter>window\win32</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\GLContext.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\GLWindow.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\WindowManager.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\glad\glad.h" />
   </ItemGroup>
 </Project>

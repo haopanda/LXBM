@@ -1,25 +1,25 @@
 #ifndef _WGL_CONTEXT_H_
 #define _WGL_CONTEXT_H_
 
-#include "GLContext.h"
+#include "window/GLContext.h"
 #include <windows.h>
 
-class GLOSWindowWin32;
+class GLWindowWin32;
 
 class WGLContext : public GLContext
 {
 public:
-	static WGLContext* create(GLOSWindowWin32* window);
+	static WGLContext* create(GLWindowWin32* window);
 
 	// 实现父类方法
 	virtual bool makeCurrent(void);
 	virtual void swapBuffers(void);
 
 private:
-	bool init(GLOSWindowWin32* window);
+	bool init(GLWindowWin32* window);
 	int getPixelFormatAttrib(int pixelFormat, int attrib);
 
-	int choosePixelFormat(GLOSWindowWin32* window, const FBConfig& fbConfig);
+	int choosePixelFormat(GLWindowWin32* window, const FBConfig& fbConfig);
 
 private:
 	HDC _hDC;

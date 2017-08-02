@@ -1,11 +1,11 @@
-#include "GLOSWindow-win32.h"
+#include "GLWindow-win32.h"
 #include "WGLContext.h"
 #include "Win32Helper.h"
 #include <new>
 
-GLOSWindow* GLOSWindow::create()
+GLWindowWin32* GLWindowWin32::create()
 {
-	auto pRet = new (std::nothrow) GLOSWindowWin32();
+	auto pRet = new (std::nothrow) GLWindowWin32();
 	if (pRet && pRet->init())
 	{
 		return pRet;
@@ -14,46 +14,29 @@ GLOSWindow* GLOSWindow::create()
 	return nullptr;
 }
 
-void GLOSWindow::pollEvents()
-{
-	MSG msg;
-	while (PeekMessageW(&msg, NULL, 0, 0, PM_REMOVE))
-	{
-		if (msg.message == WM_QUIT)
-		{
-			//
-		}
-	}
-}
-
-void GLOSWindow::waitEvents()
-{
-	//
-}
-
 ////////////////////////////////
 #define _WINDOW_CLASS_NAME L"LXBM"
 
-bool GLOSWindowWin32::s_initialized = false;
+bool GLWindowWin32::s_initialized = false;
 
-GLOSWindowWin32::GLOSWindowWin32()
+GLWindowWin32::GLWindowWin32()
 {
 	//
 }
 
-GLOSWindowWin32::~GLOSWindowWin32()
+GLWindowWin32::~GLWindowWin32()
 {
 	//
 }
 
-bool GLOSWindowWin32::init()
+bool GLWindowWin32::init()
 {
-	if (!GLOSWindowWin32::s_initialized)
+	if (!GLWindowWin32::s_initialized)
 	{
 		if (!this->registerWindowClass())
 			return false;
 
-		GLOSWindowWin32::s_initialized = true;
+		GLWindowWin32::s_initialized = true;
 	}
 
 	if (!createWindow())
@@ -73,13 +56,13 @@ bool GLOSWindowWin32::init()
 }
 
 // 注册窗口类
-bool GLOSWindowWin32::registerWindowClass()
+bool GLWindowWin32::registerWindowClass()
 {
 	WNDCLASSEXW wc;
 	ZeroMemory(&wc, sizeof(wc));
 	wc.cbSize = sizeof(wc);
 	wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-	wc.lpfnWndProc = GLOSWindowWin32::windowProc;
+	wc.lpfnWndProc = GLWindowWin32::windowProc;
 	wc.hInstance = GetModuleHandleW(NULL);
 	wc.lpszClassName = _WINDOW_CLASS_NAME;
 
@@ -90,13 +73,13 @@ bool GLOSWindowWin32::registerWindowClass()
 }
 
 // 注销窗口类
-void GLOSWindowWin32::unregisterWindowClass()
+void GLWindowWin32::unregisterWindowClass()
 {
 	UnregisterClassW(_WINDOW_CLASS_NAME, GetModuleHandleW(NULL));
 }
 
 // 创建窗口
-bool GLOSWindowWin32::createWindow()
+bool GLWindowWin32::createWindow()
 {
 	_hWnd = CreateWindowExW(getWindowStyle(),
 		                    _WINDOW_CLASS_NAME,
@@ -123,37 +106,37 @@ bool GLOSWindowWin32::createWindow()
 	return true;
 }
 
-HDC GLOSWindowWin32::getDC()
+HDC GLWindowWin32::getDC()
 {
 	return GetDC(_hWnd);
 }
 
-DWORD GLOSWindowWin32::getWindowStyle()
+DWORD GLWindowWin32::getWindowStyle()
 {
 	return WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP;
 }
 
-DWORD GLOSWindowWin32::getWindowExStyle()
+DWORD GLWindowWin32::getWindowExStyle()
 {
 	return WS_EX_APPWINDOW;
 }
 
-bool GLOSWindowWin32::doMakeCurrent()
+bool GLWindowWin32::doMakeCurrent()
 {
 	return _context->makeCurrent();
 }
 
-bool GLOSWindowWin32::doSetTitle(const std::string& title)
+bool GLWindowWin32::doSetTitle(const std::string& title)
 {
 	auto wstr = Win32Helper::convertUTF8ToWideString(title);
 	if (wstr.size() > 0)
 	{
-		return SetWindowTextW(_hWnd, wstr.c_str());
+		return SetWindowTextW(_hWnd, wstr.c_str()) == TRUE;
 	}
 	return false;
 }
 
-bool GLOSWindowWin32::doSetSize(const GLWindowSize& size)
+bool GLWindowWin32::doSetSize(const GLWindowSize& size)
 {
 	RECT rect = { 0, 0, size.width, size.height };
 	AdjustWindowRectEx(&rect, getWindowStyle(), FALSE, getWindowExStyle());
@@ -163,7 +146,7 @@ bool GLOSWindowWin32::doSetSize(const GLWindowSize& size)
 	return true;
 }
 
-bool GLOSWindowWin32::doSetPosition(const GLWindowPos& pos)
+bool GLWindowWin32::doSetPosition(const GLWindowPos& pos)
 {
 	RECT rect = { pos.x, pos.y, pos.x, pos.y };
 	AdjustWindowRectEx(&rect, getWindowExStyle(), FALSE, getWindowExStyle());
@@ -172,7 +155,7 @@ bool GLOSWindowWin32::doSetPosition(const GLWindowPos& pos)
 	return true;
 }
 
-bool GLOSWindowWin32::doSetSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize)
+bool GLWindowWin32::doSetSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize)
 {
 	RECT rect;
 	GetWindowRect(_hWnd, &rect);
@@ -182,9 +165,14 @@ bool GLOSWindowWin32::doSetSizeLimit(const GLWindowSize& minSize, const GLWindow
 	return true;
 }
 
-LRESULT CALLBACK GLOSWindowWin32::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+void GLWindowWin32::doSetVisible(bool visible)
 {
-	GLOSWindowWin32* window = (GLOSWindowWin32*)GetPropW(hWnd, L"LXBM");
+	ShowWindow(_hWnd, visible ? SW_SHOW : SW_HIDE);
+}
+
+LRESULT CALLBACK GLWindowWin32::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	GLWindowWin32* window = (GLWindowWin32*)GetPropW(hWnd, L"LXBM");
 
 	if (!window)
 	{
@@ -199,4 +187,5 @@ LRESULT CALLBACK GLOSWindowWin32::windowProc(HWND hWnd, UINT uMsg, WPARAM wParam
 	default:
 		break;
 	}
+	return DefWindowProcW(hWnd, uMsg, wParam, lParam);
 }

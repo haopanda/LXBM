@@ -1,9 +1,9 @@
 #include "WGLContext.h"
-#include "GLOSWindow-win32.h"
+#include "GLWindow-win32.h"
 
 #include <vector>
 
-WGLContext* WGLContext::create(GLOSWindowWin32* window)
+WGLContext* WGLContext::create(GLWindowWin32* window)
 {
 	auto pRet = new (std::nothrow) WGLContext();
 	if (pRet && pRet->init(window))
@@ -15,7 +15,7 @@ WGLContext* WGLContext::create(GLOSWindowWin32* window)
 	return nullptr;
 }
 
-bool WGLContext::init(GLOSWindowWin32* window)
+bool WGLContext::init(GLWindowWin32* window)
 {
 	_hDC = window->getDC();
 	if (!_hDC)

@@ -17,14 +17,9 @@ struct GLWindowPos
 	int y;
 };
 
-class GLOSWindow
+class GLWindow
 {
 public:
-	// 在不同平台的实现中定义 
-	static GLOSWindow* create(void);
-	static void pollEvents(void);
-	static void waitEvents(void);
-
 	// 成为当前渲染窗口 
 	bool makeCurrent();
 
@@ -40,11 +35,13 @@ public:
 	// 设置窗口大小限制
 	bool setSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize);
 
+	// 设置窗口是否显示
+	void setVisible(bool visible);
+
 	// 窗口是否应该关闭
 	bool windowShouldClose() { return _shouldClose; };
 
-protected:
-	// 点击了窗口的关闭按钮
+	// 点击关闭按钮
 	void onWindowShouldClose();
 
 protected:
@@ -53,9 +50,10 @@ protected:
 	virtual bool doSetSize(const GLWindowSize& size) { return true; };
 	virtual bool doSetPosition(const GLWindowPos& pos) { return true; };
 	virtual bool doSetSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize) { return true; };
+	virtual void doSetVisible(bool visible) {};
 
 private:
-	static GLOSWindow* s_currentWindow;
+	static GLWindow* s_currentWindow;
 	
 	std::string _title;
 	GLWindowSize _size;

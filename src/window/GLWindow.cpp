@@ -1,8 +1,8 @@
-#include "GLOSWindow.h"
+#include "GLWindow.h"
 
-GLOSWindow* GLOSWindow::s_currentWindow = nullptr;
+GLWindow* GLWindow::s_currentWindow = nullptr;
 
-bool GLOSWindow::makeCurrent()
+bool GLWindow::makeCurrent()
 {
 	if (doMakeCurrent())
 	{
@@ -12,7 +12,7 @@ bool GLOSWindow::makeCurrent()
 	return false;
 }
 
-bool GLOSWindow::setTitle(const std::string& title)
+bool GLWindow::setTitle(const std::string& title)
 {
 	if (doSetTitle(title))
 	{
@@ -22,7 +22,7 @@ bool GLOSWindow::setTitle(const std::string& title)
 	return false;
 }
 
-bool GLOSWindow::setSize(const GLWindowSize& size)
+bool GLWindow::setSize(const GLWindowSize& size)
 {
 	if (doSetSize(size))
 	{
@@ -32,7 +32,7 @@ bool GLOSWindow::setSize(const GLWindowSize& size)
 	return false;
 }
 
-bool GLOSWindow::setPosition(const GLWindowPos& pos)
+bool GLWindow::setPosition(const GLWindowPos& pos)
 {
 	if (doSetPosition(pos))
 	{
@@ -42,7 +42,7 @@ bool GLOSWindow::setPosition(const GLWindowPos& pos)
 	return false;
 }
 
-bool GLOSWindow::setSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize)
+bool GLWindow::setSizeLimit(const GLWindowSize& minSize, const GLWindowSize& maxSize)
 {
 	if (doSetSizeLimit(minSize, maxSize))
 	{
@@ -53,7 +53,12 @@ bool GLOSWindow::setSizeLimit(const GLWindowSize& minSize, const GLWindowSize& m
 	return false;
 }
 
-void GLOSWindow::onWindowShouldClose()
+void GLWindow::setVisible(bool visible)
+{
+	doSetVisible(visible);
+}
+
+void GLWindow::onWindowShouldClose()
 {
 	_shouldClose = true;
 }

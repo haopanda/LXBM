@@ -18,6 +18,27 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\glad.c" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\window\GLContext.cpp" />
+    <ClCompile Include="src\window\GLWindow.cpp" />
+    <ClCompile Include="src\window\win32\GLWindow-win32.cpp" />
+    <ClCompile Include="src\window\win32\WGLContext.cpp" />
+    <ClCompile Include="src\window\win32\Win32Helper.cpp" />
+    <ClCompile Include="src\window\win32\WindowManager-win32.cpp" />
+    <ClCompile Include="src\window\WindowManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\glad\glad.h" />
+    <ClInclude Include="src\window\GLContext.h" />
+    <ClInclude Include="src\window\GLWindow.h" />
+    <ClInclude Include="src\window\win32\GLWindow-win32.h" />
+    <ClInclude Include="src\window\win32\WGLContext.h" />
+    <ClInclude Include="src\window\win32\Win32Helper.h" />
+    <ClInclude Include="src\window\win32\WindowManager-win32.h" />
+    <ClInclude Include="src\window\WindowManager.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC755B3C-F1D1-4331-A196-61C9BACBE68E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -89,6 +110,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)\src;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -145,22 +167,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="src\GLContext.h" />
-    <ClInclude Include="src\GLOSWindow-win32.h" />
-    <ClInclude Include="src\GLWindow.h" />
-    <ClInclude Include="src\GLOSWindow.h" />
-    <ClInclude Include="src\WGLContext.h" />
-    <ClInclude Include="src\Win32Helper.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="src\GLContext.cpp" />
-    <ClCompile Include="src\GLOSWindow-win32.cpp" />
-    <ClCompile Include="src\GLOSWindow.cpp" />
-    <ClCompile Include="src\GLWindow.cpp" />
-    <ClCompile Include="src\WGLContext.cpp" />
-    <ClCompile Include="src\Win32Helper.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
