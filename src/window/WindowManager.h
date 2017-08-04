@@ -2,10 +2,8 @@
 #define _WINDOW_MANAGER_H_
 
 #include "GLWindow.h"
-
 #include <vector>
 
-class GLWindow;
 class WindowManager
 {
 public:

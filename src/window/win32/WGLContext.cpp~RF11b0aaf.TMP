@@ -4,11 +4,6 @@
 #include <Wingdi.h>
 #include <vector>
 
-#define wglCreateContext s_wglLibrary->CreateContext
-#define wglDeleteContext s_wglLibrary->DeleteContext
-#define wglMakeCurrent s_wglLibrary->MakeCurrent
-#define wglGetProcAddress s_wglLibrary->GetProcAddress
-
 WGLContext::WGLLibrary* WGLContext::s_wglLibrary = nullptr;
 
 WGLContext* WGLContext::create(GLWindowWin32* window)
@@ -23,7 +18,7 @@ WGLContext* WGLContext::create(GLWindowWin32* window)
 	return nullptr;
 }
 
-bool WGLContext::initWGLLibrary(HDC hDC)
+bool WGLContext::initWGLLibrary()
 {
 	if (s_wglLibrary != nullptr)
 	{
@@ -40,50 +35,17 @@ bool WGLContext::initWGLLibrary(HDC hDC)
 	{
 		return false;
 	}
-	s_wglLibrary->CreateContext = reinterpret_cast<PFN_wglCreateContext>(GetProcAddress(s_wglLibrary->instance, "wglCreateContext"));
-	s_wglLibrary->DeleteContext = reinterpret_cast<PFN_wglDeleteContext>(GetProcAddress(s_wglLibrary->instance, "wglDeleteContext"));
-	s_wglLibrary->GetProcAddress = reinterpret_cast<PFN_wglGetProcAddress>(GetProcAddress(s_wglLibrary->instance, "wglGetProcAddress"));
-	s_wglLibrary->GetCurrentDC = reinterpret_cast<PFN_wglGetCurrentDC>(GetProcAddress(s_wglLibrary->instance, "wglGetCurrentDC"));
-	s_wglLibrary->MakeCurrent = reinterpret_cast<PFN_wglMakeCurrent>(GetProcAddress(s_wglLibrary->instance, "wglMakeCurrent"));
-	s_wglLibrary->ShareLists = reinterpret_cast<PFN_wglShareLists>(GetProcAddress(s_wglLibrary->instance, "wglShareLists"));
+	s_wglLibrary->CreateContext = static_cast<PFN_wglCreateContext>GetProcAddress(s_wglLibrary->instance, "wglCreateContext");
 
-	PIXELFORMATDESCRIPTOR pfd;
-	ZeroMemory(&pfd, sizeof(pfd));
-	pfd.nSize = sizeof(pfd);
-	pfd.nVersion = 1;
-	pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-	pfd.iPixelType = PFD_TYPE_RGBA;
-	pfd.cColorBits = 24;
-
-	if (!SetPixelFormat(hDC, ChoosePixelFormat(hDC, &pfd), &pfd))
-	{
-		return false;
-	}
-
-	auto rc = wglCreateContext(hDC);
-	if (!rc)
-		return false;
-
-	if (!wglMakeCurrent(hDC, rc))
-	{
-		wglDeleteContext(rc);
-		return false;
-	}
-
-	s_wglLibrary->GetExtensionsStringEXT = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGEXTPROC>(wglGetProcAddress("wglGetExtensionsStringEXT"));
-	s_wglLibrary->GetExtensionsStringARB = reinterpret_cast<PFNWGLGETEXTENSIONSSTRINGARBPROC>(wglGetProcAddress("wglGetExtensionsStringARB"));
-	s_wglLibrary->GetPixelFormatAttribivARB = reinterpret_cast<PFNWGLGETPIXELFORMATATTRIBIVARBPROC>(wglGetProcAddress("wglGetPixelFormatAttribivARB"));
-	s_wglLibrary->SwapIntervalEXT = reinterpret_cast<PFNWGLSWAPINTERVALEXTPROC>(wglGetProcAddress("wglSwapIntervalEXT"));
-	s_wglLibrary->CreateContextAttribsARB = reinterpret_cast<PFNWGLCREATECONTEXTATTRIBSARBPROC>(wglGetProcAddress("wglCreateContextAttribsARB"));
 }
 
 bool WGLContext::init(GLWindowWin32* window)
 {
-	_hDC = window->getDC();
-	if (!_hDC)
+	if (!initWGLLibrary())
 		return false;
 
-	if (!initWGLLibrary(_hDC))
+	_hDC = window->getDC();
+	if (!_hDC)
 		return false;
 
 	FBConfig fbConfig;

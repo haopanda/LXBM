@@ -36,6 +36,7 @@ public:
 
 protected:
 	int chooseFBConfig(const FBConfig& desired, const std::vector<FBConfig>& alternatives);
+	bool stringInExtensionString(const char* string, const char* extensions);
 };
 
 #endif // _GL_CONTEXT_H_

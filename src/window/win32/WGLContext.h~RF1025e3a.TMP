@@ -11,8 +11,6 @@ class WGLContext : public GLContext
 public:
 	static WGLContext* create(GLWindowWin32* window);
 
-	static bool initWGLExtension(HWND handler);
-
 	// 实现父类方法
 	virtual bool makeCurrent(void);
 	virtual void swapBuffers(void);
@@ -46,7 +44,7 @@ private:
 		HINSTANCE instance;
 		PFN_wglCreateContext                CreateContext;
 		PFN_wglDeleteContext                DeleteContext;
-		PFN_wglGetProcAddress               GetProcAddress;
+		PFN_wglGetProcAddress               GetProcAdress;
 		PFN_wglGetCurrentDC                 GetCurrentDC;
 		PFN_wglMakeCurrent                  MakeCurrent;
 		PFN_wglShareLists                   ShareLists;
@@ -69,10 +67,10 @@ private:
 		bool                                ARB_create_context_robustness;
 		bool                                ARB_create_context_no_error;
 		bool                                ARB_context_flush_control;
+
+		bool                                initialized;
 	};
 	static WGLLibrary* s_wglLibrary;
-
-	static bool initWGLLibrary(HDC hDC);
 	//////////////////////////////////////////////////////////////////////////
 };
 

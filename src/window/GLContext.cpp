@@ -69,3 +69,29 @@ int GLContext::chooseFBConfig(const FBConfig& desired, const std::vector<FBConfi
 
 	return closet;
 }
+
+bool GLContext::stringInExtensionString(const char* string, const char* extensions)
+{
+	const char* start = extensions;
+
+	for (;;)
+	{
+		const char* where;
+		const char* terminator;
+
+		where = strstr(start, string);
+		if (!where)
+			return false;
+
+		terminator = where + strlen(string);
+		if (where == start || *(where - 1) == ' ')
+		{
+			if (*terminator == ' ' || *terminator == '\0')
+				break;
+		}
+
+		start = terminator;
+	}
+
+	return true;
+}
